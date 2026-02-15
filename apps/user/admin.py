@@ -1,11 +1,11 @@
 from django.contrib import admin
-from django.contrib.auth.admin import UserAdmin
+from unfold.admin import ModelAdmin
 
 from .models import CustomUser
 
 @admin.register(CustomUser)
 
-class CustomUserAdmin(UserAdmin):
+class CustomUserAdmin(ModelAdmin):
     model = CustomUser
     list_display = ("email", "is_staff", "is_active",)
     list_filter = ("email", "is_staff", "is_active",)

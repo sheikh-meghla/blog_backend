@@ -1,9 +1,9 @@
-from django.urls import path, include
+from django.urls import path
+from .views import SignUpAPIView, SignInAPIView, SignOutAPIView, ChangePasswordAPIView
 
 urlpatterns = [
-    path("signup/", include("apps.user.signup_urls")),
-    path("signin/", include("apps.user.signin_urls")),
-    path("signout/", include("apps.user.signout_urls")),
-    path("profile/", include("apps.user.profile_urls")),
-    path("change-password/", include("apps.user.change_password_urls")),
+    path("signup/", SignUpAPIView.as_view(), name="signup"),
+    path("signin/", SignInAPIView.as_view(), name="signin"),
+    path("signout/", SignOutAPIView.as_view(), name="signout"),
+    path("change-password/", ChangePasswordAPIView.as_view(), name="change-password"),
 ]

@@ -1,5 +1,8 @@
-from django.db import settings
 from django.db import models
+from django.utils.translation import gettext_lazy as _
+
+from project import settings
+
 
 class Comment(models.Model):    
     user = models.ForeignKey(

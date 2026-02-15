@@ -1,9 +1,9 @@
-from tokenize import Comment
 from django.contrib import admin
-
+from unfold.admin import ModelAdmin
+from .models import Comment
 # Register your models here.
 @admin.register(Comment)
-class CommentAdmin(admin.ModelAdmin):
+class CommentAdmin(ModelAdmin):
     list_display = ("user", "content", "created_at", "is_active")
     list_filter = ("is_active", "created_at")
     search_fields = ("user__username", "content")

@@ -48,7 +48,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'apps.user',
-    'apps.comment'
+    'apps.comment',
 
     'rest_framework',
     'rest_framework_simplejwt',

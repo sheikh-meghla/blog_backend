@@ -1,16 +1,29 @@
 from rest_framework import serializers
 from .models import Comment
 
+
+class RecursiveSerializer(serializers.Serializer):
+    def to_representation(self, value):
+        serializer = CommentSerializer(value, context=self.context)
+        return serializer.data
+
+
 class CommentSerializer(serializers.ModelSerializer):
-    user_name = serializers.ReadOnlyField(source='user.username')
-    replies = serializers.SerializerMethodField()
+    user = serializers.StringRelatedField(read_only=True)
+    replies = RecursiveSerializer(many=True, read_only=True)
 
     class Meta:
         model = Comment
-        fields = ['id', 'post', 'user_name', 'content', 'parent', 'replies', 'created_at']
-        read_only_fields = ['created_at']
+        fields = '__all__'
+        read_only_fields = [
+            'id',
+            'user',
+            'created_at',
+            'updated_at',
+            'replies',
+        ]
 
-    def get_replies(self, obj):
-        if obj.parent is None:
-            return CommentSerializer(obj.replies.all(), many=True).data
-        return None
+    def validate_content(self, value):
+        if not value.strip():
+            raise serializers.ValidationError("Comment cannot be empty.")
+        return value

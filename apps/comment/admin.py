@@ -4,11 +4,11 @@ from .models import Comment
 # Register your models here.
 @admin.register(Comment)
 class CommentAdmin(ModelAdmin):
-    list_display = ("user", "content", "created_at", "is_active")
+    list_display = ("user", "content", "post", "created_at", "is_active")
     list_filter = ("is_active", "created_at")
     search_fields = ("user__username", "content")
     ordering = ("-created_at",)
     fieldsets = (
-        (None, {"fields": ("user", "content", "parent")}),
+        (None, {"fields": ("user", "content", "parent", "post")}),
         ("Status", {"fields": ("is_active",)}),
     )

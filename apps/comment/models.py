@@ -34,7 +34,9 @@ class Comment(models.Model):
         ordering = ['-created_at'] 
 
     def __str__(self):
-        return f"Comment by {self.user.username} on {self.post.title}"
+        user_id = self.user.get_username() if self.user else "Unknown"
+        post_title = self.post.title if self.post else "No Post"
+        return f"Comment by {user_id} on {post_title}"
 
     @property
     def is_reply(self):

@@ -1,14 +1,15 @@
 from django.contrib import admin
-from unfold.admin import ModelAdmin
 from .models import Comment
-# Register your models here.
+from unfold.admin import ModelAdmin
+
 @admin.register(Comment)
 class CommentAdmin(ModelAdmin):
-    list_display = ("user", "content", "post", "created_at", "is_active")
-    list_filter = ("is_active", "created_at")
-    search_fields = ("user__username", "content")
-    ordering = ("-created_at",)
-    fieldsets = (
-        (None, {"fields": ("user", "content", "parent", "post")}),
-        ("Status", {"fields": ("is_active",)}),
-    )
+    list_display = ("user", "content", "short_post_title", "created_at", "is_active")
+
+    @admin.display(description='Post Title') 
+    def short_post_title(self, obj):
+        if obj.post and obj.post.title:
+            return obj.post.title[:20] + "..." if len(obj.post.title) > 20 else obj.post.title
+        return "No Post"
+    
+    

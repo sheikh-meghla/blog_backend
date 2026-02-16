@@ -12,4 +12,10 @@ class CommentAdmin(ModelAdmin):
             return obj.post.title[:20] + "..." if len(obj.post.title) > 20 else obj.post.title
         return "No Post"
     
-    
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+        if db_field.name == "parent":
+            object_id = request.resolver_match.kwargs.get('object_id')
+            if object_id:
+                current_comment = self.get_object(request, object_id)
+                kwargs["queryset"] = Comment.objects.filter(post=current_comment.post)
+        return super().formfield_for_foreignkey(db_field, request, **kwargs)
